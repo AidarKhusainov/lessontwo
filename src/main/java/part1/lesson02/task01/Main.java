@@ -1,5 +1,7 @@
 package part1.lesson02.task01;
 
+import sun.plugin2.message.Message;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -77,7 +79,17 @@ public class Main {
      * @param textError Error text for output
      * @throws Exception
      */
-    private static void generateYourError(String textError) throws Exception {
-        throw new Exception(textError);
+    private static void generateYourError(String textError) throws MyException {
+        try {
+            throw new MyException(textError);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+class MyException extends Exception {
+    MyException(String messageError) {
+        super(messageError);
     }
 }

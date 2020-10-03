@@ -53,11 +53,11 @@ public class Main {
         return input.nextInt();
     }
 
-    public static void printToConsole(String printText) {
+    public static void printToConsole(Object printText) {
         System.out.println(printText);
     }
 
-    public static void printToConsole(int printText) {
-        System.out.println(printText);
-    }
+//    public static void printToConsole(int printText) {
+//        System.out.println(printText);
+//    }
 }
