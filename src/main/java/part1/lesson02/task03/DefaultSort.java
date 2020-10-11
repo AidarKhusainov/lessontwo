@@ -4,10 +4,11 @@ import part1.lesson02.task03.person.Person;
 
 import java.util.List;
 
+
 /**
  * Интерфейс для сортировки Person
- * BubbleSort - Пузырьковая сортировка
+ * DefaultSort - Сортировка с помощью Comparator
  */
-interface BubbleSort {
-    void bubbleSort(List<Person> personList);
+interface DefaultSort {
+    void sortOfCollectionByDefault(List<Person> personList);
 }
