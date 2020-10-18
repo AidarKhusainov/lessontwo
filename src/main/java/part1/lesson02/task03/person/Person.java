@@ -2,6 +2,8 @@ package part1.lesson02.task03.person;
 
 import part1.lesson02.task03.Sex;
 
+import java.util.Objects;
+
 /**
  * Класс Person характеризуется полями:
  * age (возраст, целое число 0-100)
@@ -67,6 +69,21 @@ public class Person implements Comparable<Person> {
                 ", sex=" + sex +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                sex == person.sex &&
+                Objects.equals(name, person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(age, sex, name);
     }
 }
 
