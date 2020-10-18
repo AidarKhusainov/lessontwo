@@ -7,20 +7,18 @@ import java.util.Comparator;
  * Класс для сравнения имени и возраста Person
  */
 public class PersonComparator implements Comparator<Person> {
-    @Override
-    public int compare(Person o1, Person o2) {
-        int compareName = o1.getName().compareTo(o2.getName());
 
-        if (compareName != 0) {
-            return compareName;
+    public int compare(Person a, Person b) {
+        int order;
+        if ((order = a.getSex().toString().compareTo(b.getSex().toString())) != 0) {
+            return order;
         }
-
-        int compareAge = Integer.compare(o1.getAge(), o2.getAge());
-
-        if (compareAge != 0) {
-            return compareAge;
+        if ((order = Integer.compare(b.getAge(), a.getAge())) != 0) {
+            return order;
         }
-
-        return 0;
+        if ((order = a.getName().compareTo(b.getName())) != 0) {
+            return order;
+        }
+        return order;
     }
 }

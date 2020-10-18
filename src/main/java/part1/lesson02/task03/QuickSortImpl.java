@@ -1,6 +1,7 @@
 package part1.lesson02.task03;
 
 import part1.lesson02.task03.person.Person;
+import part1.lesson02.task03.person.PersonComparator;
 
 /**
  * Класс реализует алгоритм быстрой сортировки.
@@ -22,36 +23,20 @@ public class QuickSortImpl implements ICustomSort {
 
         int leftSexMarker = leftBorder;
         int rightSexMarker = rightBorder;
-
         int middleMarker = leftSexMarker - (leftSexMarker - rightSexMarker) / 2;
+        PersonComparator personComparator = new PersonComparator();
 
         while (leftSexMarker < rightSexMarker) {
-            while (compareSex(person[leftSexMarker], person[middleMarker]) && leftSexMarker < middleMarker) {
 
-                if (compareAge(person[leftSexMarker], person[middleMarker]) && person[leftSexMarker].getSex() == person[middleMarker].getSex()) {
-
-                    swap(person, leftSexMarker, middleMarker);
-
-                    if (compareName(person[leftSexMarker], person[middleMarker]) && person[leftSexMarker].getAge() > person[middleMarker].getAge()) {
-                        swap(person, leftSexMarker, middleMarker);
-                    }
-                }
+            while (personComparator.compare(person[leftSexMarker], person[middleMarker]) <= 0
+                    && leftSexMarker < middleMarker) {
                 leftSexMarker++;
             }
 
-            while (compareSex(person[middleMarker], person[rightSexMarker]) && rightSexMarker > middleMarker) {
-
-                if (compareAge(person[middleMarker], person[rightSexMarker]) && person[middleMarker].getSex() == person[rightSexMarker].getSex()) {
-
-                    swap(person, middleMarker, rightSexMarker);
-
-                    if (compareName(person[middleMarker], person[rightSexMarker]) && person[rightSexMarker].getAge() < person[middleMarker].getAge()) {
-                        swap(person, middleMarker, rightSexMarker);
-                    }
-                }
+            while (personComparator.compare(person[rightSexMarker], person[middleMarker]) >= 0
+                    && rightSexMarker > middleMarker) {
                 rightSexMarker--;
             }
-
             if (leftSexMarker <= rightSexMarker) {
 
                 swap(person, rightSexMarker, leftSexMarker);

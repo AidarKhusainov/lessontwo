@@ -83,6 +83,7 @@ public class Main {
      * @throws MyException - Выброс исключения в случае нахождения дубликата
      */
     public static void checkDuplicatesAndThrowException(Person[] persons) throws MyException {
+        if (persons.length == 0) return;
         HashSet<String> set = new HashSet<>();
         boolean isAdded;
         for (Person person : persons) {
