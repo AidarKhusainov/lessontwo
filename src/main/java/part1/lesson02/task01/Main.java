@@ -80,7 +80,7 @@ public class Main {
     private static void generateYourError(String textError) throws MyException {
         try {
             throw new MyException(textError);
-        } catch (Exception e) {
+        } catch (MyException e) {
             System.out.println(e.getMessage());
         }
     }

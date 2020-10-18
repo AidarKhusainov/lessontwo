@@ -1,71 +1,61 @@
 package part1.lesson02.task03;
 
-
 import java.util.*;
 
 import part1.lesson02.task01.MyException;
 import part1.lesson02.task03.person.Person;
 
 import static part1.lesson02.task02.Main.*;
-import static part1.lesson02.task03.SortImpl.printPersonToConsole;
-
+import static part1.lesson02.task03.person.Person.printPersonToConsole;
 
 public class Main {
     static final String upperCaseLexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static final String lowerCaseLexicon = "abcdefghijklmnopqrstuvwxyz";
     static final Set<String> identifiers = new HashSet<>();
-    private final static int SIZE_OF_ARRAY = 100;
-
-    static List<Person> personList = new ArrayList<>(
-//            Arrays.asList(
-//                    new Person(getRandNumber(0, 100), "Ada", Sex.WOMAN),
-//                    new Person(getRandNumber(0, 100), "Ivanko", Sex.MAN),
-//                    new Person(50, "Anna", Sex.WOMAN),
-//                    new Person(getRandNumber(0, 100), "Aidar", Sex.MAN),
-//                    new Person(getRandNumber(0, 100), "Ivan", Sex.MAN),
-//                    new Person(50, "Anna", Sex.MAN)
-//            )
-    );
+    private final static int SIZE_OF_ARRAY = 15000;
+    static Person[] persons = new Person[SIZE_OF_ARRAY];
 
     public static void main(String[] args) throws MyException {
+        ICustomSort[] sorts = {new QuickSortImpl(), new DefaultSortImpl()};
 
-        fillInPersonListWithRandomValues(SIZE_OF_ARRAY, personList);
+        for (ICustomSort sort : sorts) {
+            persons = generatePersonsWithRandomValues(SIZE_OF_ARRAY);
 
-        checkDuplicatesAndThrowException(personList);
+            checkDuplicatesAndThrowException(persons);
 
-        printPersonToConsole("---Start sort---", personList);
+//            printPersonToConsole("-------------------------Start sort-------------------------", persons);
+            long startTime = System.currentTimeMillis();
 
-        long startTime = System.currentTimeMillis();
+            sortingOfPersons(sort, persons);
 
-//        Sortable sortableBubble = new SortImpl(personList);
-//        sortableBubble.bubbleSort(personList);
-
-        Sortable sortableDefault = new SortImpl(personList);
-        sortableDefault.sortOfCollectionByDefault(personList);
-
-        double endTime = (double) System.currentTimeMillis();
-        System.out.println("\nВремя выполнения программы: " + ((endTime - startTime) / 1000) + "c.\n");
-
-        printPersonToConsole("---End sort---", personList);
-
-    }
-
-    /**
-     * @param lengthOfArray - размер массива
-     * @param personList    - массив Person
-     */
-    private static void fillInPersonListWithRandomValues(int lengthOfArray, List<Person> personList) {
-        for (int i = 0; i < lengthOfArray; i++) {
-            personList.add(new Person(
-                    getRandNumber(0, 100),
-                    getRandomString(5, 15),
-                    getRandNumber(0, 1) == 1 ? Sex.MAN : Sex.WOMAN));
+            long endTime = System.currentTimeMillis();
+//            printPersonToConsole("-------------------------End sort-------------------------", persons);
+            System.out.print("\nВремя выполнения " + sort.getClass().toString() + ": " + (endTime - startTime) + "мс.\n");
         }
     }
 
+    private static void sortingOfPersons(ICustomSort sort, Person[] persons) {
+        sort.customSort(persons);
+    }
+
+    /**
+     * @param sizeOfArray - размер массива
+     */
+    private static Person[] generatePersonsWithRandomValues(int sizeOfArray) {
+        Person[] persons = new Person[sizeOfArray];
+        for (int i = 0; i < sizeOfArray; i++) {
+            persons[i] = new Person(
+                    getRandNumber(0, 100),
+                    getRandomString(5, 15),
+                    getRandNumber(0, 1) == 1 ? Sex.MAN : Sex.WOMAN);
+        }
+        return persons;
+    }
+
+
     /**
      * @param rangeFrom - Длина строки от
-     * @param rangeTo - Длина строки до
+     * @param rangeTo   - Длина строки до
      * @return - Возвращает случайную строку с заглавной буквы
      */
     public static String getRandomString(int rangeFrom, int rangeTo) {
@@ -89,13 +79,13 @@ public class Main {
     /**
      * Проверяет отсортированный массив на дубликаты
      *
-     * @param personList - массив объектов Person
+     * @param persons - массив объектов Person
      * @throws MyException - Выброс исключения в случае нахождения дубликата
      */
-    public static void checkDuplicatesAndThrowException(List<Person> personList) throws MyException {
+    public static void checkDuplicatesAndThrowException(Person[] persons) throws MyException {
         HashSet<String> set = new HashSet<>();
         boolean isAdded;
-        for(Person person : personList){
+        for (Person person : persons) {
             isAdded = set.add(person.getAge() + person.getName());
             if (!isAdded) {
                 throw new MyException("Имена людей и возраст совпадают: " + person.getAge() + " " + person.getName());

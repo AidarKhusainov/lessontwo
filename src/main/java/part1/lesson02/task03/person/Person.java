@@ -49,4 +49,34 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person o) {
         return Integer.compare(age, o.age);
     }
+
+    public static void printPersonToConsole(String message, Person[] persons) {
+        System.out.println(message);
+        for (Person person : persons)
+            System.out.println("{" +
+                    "age=" + person.age +
+                    ", sex=" + person.sex +
+                    ", name='" + person.name  +
+                    "}");
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "age=" + age +
+                ", sex=" + sex +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
