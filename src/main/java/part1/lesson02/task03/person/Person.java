@@ -55,11 +55,7 @@ public class Person implements Comparable<Person> {
     public static void printPersonToConsole(String message, Person[] persons) {
         System.out.println(message);
         for (Person person : persons)
-            System.out.println("{" +
-                    "age=" + person.age +
-                    ", sex=" + person.sex +
-                    ", name='" + person.name  +
-                    "}");
+            System.out.println(person);
     }
 
     @Override

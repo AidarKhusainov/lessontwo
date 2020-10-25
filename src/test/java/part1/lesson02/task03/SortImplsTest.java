@@ -39,8 +39,12 @@ class SortImplsTest {
     private Person[] getTestData() {
         return new Person[]{
                 new Person(5, "name1", Sex.MAN),
+                new Person(5, "name1", Sex.MAN),
+                new Person(6, "name1", Sex.MAN),
                 new Person(5, "name2", Sex.MAN),
                 new Person(4, "name2", Sex.MAN),
+                new Person(5, "name2", Sex.MAN),
+                new Person(5, "name2", Sex.MAN),
                 new Person(4, "name1", Sex.MAN),
                 new Person(6, "name1", Sex.MAN),
                 new Person(6, "name1", Sex.MAN),

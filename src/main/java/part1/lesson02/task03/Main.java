@@ -12,15 +12,31 @@ public class Main {
     static final String upperCaseLexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static final String lowerCaseLexicon = "abcdefghijklmnopqrstuvwxyz";
     static final Set<String> identifiers = new HashSet<>();
-    private final static int SIZE_OF_ARRAY = 15000;
+    private final static int SIZE_OF_ARRAY = 100000;
     static Person[] persons = new Person[SIZE_OF_ARRAY];
+    static Person[] personsDef = new Person[] {
+            new Person(9, "A",      Sex.WOMAN),
+            new Person(1, "B",      Sex.WOMAN),
+            new Person(3, "C",      Sex.MAN  ),
+            new Person(7, "D",      Sex.WOMAN),
+            new Person(3, "E",      Sex.MAN ),
+            new Person(1, "F",      Sex.WOMAN),
+            new Person(8, "G",      Sex.WOMAN),
+            new Person(7, "H",      Sex.MAN),
+            new Person(4, "J",      Sex.WOMAN),
+            new Person(7, "A",      Sex.WOMAN  ),
+            new Person(1, "L",      Sex.WOMAN),
+            new Person(7, "A",      Sex.MAN),
+            new Person(6, "O",      Sex.WOMAN),
+            new Person(5, "I",      Sex.MAN  ),
+    };
 
     public static void main(String[] args) throws MyException {
         ICustomSort[] sorts = {new QuickSortImpl(), new DefaultSortImpl()};
-
+        Person[] generatePerson = generatePersonsWithRandomValues(SIZE_OF_ARRAY);
         for (ICustomSort sort : sorts) {
-            persons = generatePersonsWithRandomValues(SIZE_OF_ARRAY);
-
+            persons = generatePerson;
+//            persons = personsDef;
             checkDuplicatesAndThrowException(persons);
 
 //            printPersonToConsole("-------------------------Start sort-------------------------", persons);

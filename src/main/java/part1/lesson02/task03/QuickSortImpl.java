@@ -21,33 +21,57 @@ public class QuickSortImpl implements ICustomSort {
         if (leftBorder >= rightBorder)
             return;
 
-        int leftSexMarker = leftBorder;
-        int rightSexMarker = rightBorder;
-        int middleMarker = leftSexMarker - (leftSexMarker - rightSexMarker) / 2;
+        int leftMarker = leftBorder;
+        int rightMarker = rightBorder;
+        int middleMarker = leftMarker - (leftMarker - rightMarker) / 2;
+        int rightTmpMarker = rightBorder;
+        int leftTmpMarker = 0;
         PersonComparator personComparator = new PersonComparator();
 
-        while (leftSexMarker < rightSexMarker) {
+        while (leftMarker < rightMarker) {
 
-            while (personComparator.compare(person[leftSexMarker], person[middleMarker]) <= 0
-                    && leftSexMarker < middleMarker) {
-                leftSexMarker++;
+            while (personComparator.compare(person[leftMarker], person[middleMarker]) <= 0
+                    && leftMarker < middleMarker) {
+                leftMarker++;
             }
 
-            while (personComparator.compare(person[rightSexMarker], person[middleMarker]) >= 0
-                    && rightSexMarker > middleMarker) {
-                rightSexMarker--;
+            while (personComparator.compare(person[rightMarker], person[middleMarker]) >= 0
+                    && rightMarker > middleMarker) {
+                rightMarker--;
             }
-            if (leftSexMarker <= rightSexMarker) {
 
-                swap(person, rightSexMarker, leftSexMarker);
+            if (leftMarker <= rightMarker) {
 
-                if (leftSexMarker == middleMarker)
-                    middleMarker = rightSexMarker;
-                else if (rightSexMarker == middleMarker)
-                    middleMarker = leftSexMarker;
+                while (personComparator.compare(person[leftTmpMarker], person[rightMarker]) <= 0
+                        && leftTmpMarker < rightMarker) {
+                    leftTmpMarker++;
+                }
 
-                leftSexMarker++;
-                rightSexMarker--;
+                if (personComparator.compare(person[leftTmpMarker], person[rightMarker]) >= 0
+                        && leftTmpMarker < rightMarker) {
+                    swap(person, rightMarker, leftTmpMarker);
+                }
+
+                while (personComparator.compare(person[rightTmpMarker], person[leftMarker]) >= 0
+                        && rightTmpMarker > leftMarker) {
+                    rightTmpMarker--;
+                }
+
+                if (personComparator.compare(person[rightTmpMarker], person[leftMarker]) <= 0
+                        && rightTmpMarker > leftMarker) {
+                    swap(person, leftMarker, rightTmpMarker);
+                }
+
+                if (leftMarker == middleMarker)
+                    middleMarker = rightMarker;
+                else if (rightMarker == middleMarker)
+                    middleMarker = leftMarker;
+
+                rightTmpMarker = rightBorder;
+                leftTmpMarker = 0;
+
+                leftMarker++;
+                rightMarker--;
             }
         }
         quickSort(person, leftBorder, middleMarker);
