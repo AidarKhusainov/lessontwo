@@ -1,0 +1,189 @@
+package task02;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class Main {
+    public static void main(String[] args) {
+        Map<Integer, Animal> animalMap = new HashMap<>();
+        CatalogAnimal<Map<Integer, Animal>, Integer, Animal> catalogAnimal = new CatalogAnimal<>();
+        Animal[] animals = new Animal[3];
+
+        for (int i = 0; i < animals.length; i++) {
+            animals[i] = new Animal();
+            animals[i].setId(i);
+            animals[i].setName("Gav" + i);
+            animals[i].setOwner(new Person(10 + i, "Name" + i, Sex.MAN));
+            animals[i].setWeight((int) (25 + i));
+
+            animalMap.put(animals[i].getId(), animals[i]);
+
+            catalogAnimal.addCardToCatalog(animalMap);
+        }
+
+//        for (Animal animal : animals) {
+//            System.out.println(animal.toString());
+//        }
+
+
+        System.out.println(catalogAnimal.getPet());
+        System.out.println(catalogAnimal.getCardById(2));
+
+        Map<Integer, Animal> animalChange = new HashMap<>();
+        animalChange.put(2, new Animal(10, "May", new Person(99, "Olga", Sex.WOMAN), 88));
+
+        catalogAnimal.changeDataById(2, animalChange);
+
+        System.out.println(catalogAnimal.getPet());
+//        catalogAnimal.setPet(animalMap);
+
+//        catalogAnimal.getPetByName("Sharik");
+//        new Animal(1, "Sharik", new Person(10, "Ivan", Sex.MAN), 50),
+//                new Animal(2, "Orel", new Person(20, "Petr", Sex.MAN), 20)
+    }
+}
+
+/////////////////////
+
+package task02;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class CatalogAnimal<E extends Map<Integer, Animal>, T, S> extends Catalog<E, T, S> {
+    private Map<Integer, Animal> pet = new HashMap<>();
+
+    CatalogAnimal() {
+        pet = new HashMap<>();
+    }
+
+    public void getPetByName(String petName) {
+//        Animal animal = new Animal(1, "Sharik", new Person(10, "Ivan", Sex.MAN), 50);
+        System.out.println(pet.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue().getName()))));
+
+    }
+
+    public Map<Integer, Animal> getPet() {
+        return pet;
+    }
+
+    @Override
+    public S getCardById(T idCard) {
+        return (S) this.pet.get(idCard);
+    }
+
+    @Override
+    public void addCardToCatalog(E data) {
+        setPet(data);
+    }
+
+    @Override
+    public void changeDataById(T idCard, E data) {
+        S animal = getCardById(idCard);
+        Nameable nameAnimal = (Nameable) animal;
+
+        for (Map.Entry<Integer, Animal> animalEntry : data.entrySet()) {
+            nameAnimal.setName(animalEntry.getValue().getName());
+            this.pet.get(idCard).setId(animalEntry.getValue().getId());
+            this.pet.get(idCard).setWeight(animalEntry.getValue().getWeight());
+            this.pet.get(idCard).setOwner(animalEntry.getValue().getOwner());
+        }
+    }
+
+    private void setPet(Map<Integer, Animal> pet) {
+        this.pet = pet;
+    }
+}
+
+//////////////////
+
+package task02;
+
+/**
+ * Created by khusainov_af on 27.10.2020.
+ */
+public interface Nameable {
+    String getName();
+    void setName(String name);
+}
+
+///////////////////
+package task02;
+
+/**
+ * Created by khusainov_af on 27.10.2020.
+ */
+public abstract class Catalog<E, T, S> {
+    public abstract S getCardById(T idCard);
+    public abstract void addCardToCatalog(E data);
+    public abstract void changeDataById(T idCard, E data);
+}
+
+//////////////
+package task02;
+
+
+public class Animal implements Nameable {
+    private int id;
+    private String name;
+    private Person owner;
+    private int weight;
+
+    public Animal(int id, String name, Person owner, int weight) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.weight = weight;
+    }
+
+    public Animal() {}
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                ", weight=" + weight +
+                '}';
+    }
+}
+
