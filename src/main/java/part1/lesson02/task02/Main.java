@@ -45,7 +45,7 @@ public class Main {
 
     public static int getRandNumber(int rangeFrom, int rangeTo) {
         Random random = new Random();
-        return random.nextInt((rangeTo - rangeFrom) +  1) + rangeFrom;
+        return rangeFrom <= rangeTo ? random.nextInt((rangeTo - rangeFrom) +  1) + rangeFrom : null;
     }
 
     public static int inputInt() {

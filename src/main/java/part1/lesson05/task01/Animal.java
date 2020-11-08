@@ -2,6 +2,8 @@ package part1.lesson05.task01;
 
 import part1.lesson02.task03.person.Person;
 
+import java.util.Objects;
+
 /**
  * Клас описывает животных.
  * У каждого животного есть
@@ -68,5 +70,21 @@ public class Animal implements Nameable {
                 ", owner=" + owner +
                 ", weight=" + weight +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return id == animal.id &&
+                weight == animal.weight &&
+                Objects.equals(name, animal.name) &&
+                Objects.equals(owner, animal.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, owner, weight);
     }
 }
