@@ -5,6 +5,7 @@ import part1.lesson03.task02.ObjectBox;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 
 public class MathBox<E extends Number> extends ObjectBox {
@@ -36,10 +37,12 @@ public class MathBox<E extends Number> extends ObjectBox {
     }
 
     public <T extends Number> void splitter(T denominator) {
+        Predicate<Object> compareClass = (o) -> o.getClass() == Integer.class;
+
         Number[] tmpArr = this.numberSet
                 .stream()
-                .map(v -> (v.getClass() == Integer.class ? v.intValue() : v.doubleValue()) /
-                        (denominator.getClass() == Integer.class ?
+                .map(v -> (compareClass.test(v) ? v.intValue() : v.doubleValue()) /
+                        (compareClass.test(denominator) ?
                                 denominator.intValue() :
                                 denominator.doubleValue())).toArray(Number[]::new);
 
