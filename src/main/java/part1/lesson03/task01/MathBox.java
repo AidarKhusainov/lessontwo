@@ -17,7 +17,7 @@ public class MathBox<E extends Number> extends ObjectBox {
     }
 
     public void checkDuplicatesAndDelete(Integer number) {
-        if (this.numberSet.contains(number)) this.numberSet.remove(number);
+        this.numberSet.remove(number);
     }
 
     public <T extends Number> Number summator(Set<T> numberSet) {
@@ -36,12 +36,13 @@ public class MathBox<E extends Number> extends ObjectBox {
     }
 
     public <T extends Number> void splitter(T denominator) {
-        Number[] tmpArr = this.numberSet.toArray(new Number[this.numberSet.size()]);
+        Number[] tmpArr = this.numberSet
+                .stream()
+                .map(v -> (v.getClass() == Integer.class ? v.intValue() : v.doubleValue()) /
+                        (denominator.getClass() == Integer.class ?
+                                denominator.intValue() :
+                                denominator.doubleValue())).toArray(Number[]::new);
 
-        for (int i = 0; i < tmpArr.length; i++) {
-            tmpArr[i] = (tmpArr[i].getClass() == Integer.class ? tmpArr[i].intValue() : tmpArr[i].doubleValue()) /
-                    (denominator.getClass() == Integer.class ? denominator.intValue() : denominator.doubleValue());
-        }
         this.numberSet.clear();
         setNumberSet(tmpArr);
     }
