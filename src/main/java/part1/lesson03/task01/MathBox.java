@@ -2,6 +2,8 @@ package part1.lesson03.task01;
 
 import part1.lesson03.task02.ObjectBox;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,9 +39,12 @@ public class MathBox<E extends Number> extends ObjectBox {
     }
 
     public <T extends Number> void splitter(T denominator) {
+        BigDecimal bigDecimalDenominator = BigDecimal.valueOf(denominator.doubleValue());
         Number[] tmpArr = this.numberSet
                 .stream()
-                .map(v -> v.doubleValue() / denominator.doubleValue())
+                .map(Number::doubleValue)
+                .map(BigDecimal::new)
+                .map(v -> v.divide(bigDecimalDenominator, 6, RoundingMode.CEILING))
                 .toArray(Number[]::new);
 
         this.numberSet.clear();
