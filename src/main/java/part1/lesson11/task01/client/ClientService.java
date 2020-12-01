@@ -23,7 +23,7 @@ class ClientService {
             this.socket = new Socket(ipAddress, port);
         } catch (IOException e) {
             System.err.println("Socket failed");
-            return;
+            e.printStackTrace();
         }
         try {
             inputUser = new BufferedReader(new InputStreamReader(System.in));
