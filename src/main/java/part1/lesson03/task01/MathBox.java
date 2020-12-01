@@ -37,14 +37,10 @@ public class MathBox<E extends Number> extends ObjectBox {
     }
 
     public <T extends Number> void splitter(T denominator) {
-        Predicate<Object> compareClass = (o) -> o.getClass() == Integer.class;
-
         Number[] tmpArr = this.numberSet
                 .stream()
-                .map(v -> (compareClass.test(v) ? v.intValue() : v.doubleValue()) /
-                        (compareClass.test(denominator) ?
-                                denominator.intValue() :
-                                denominator.doubleValue())).toArray(Number[]::new);
+                .map(v -> v.doubleValue() / denominator.doubleValue())
+                .toArray(Number[]::new);
 
         this.numberSet.clear();
         setNumberSet(tmpArr);
