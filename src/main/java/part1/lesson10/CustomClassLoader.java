@@ -10,7 +10,7 @@ public class CustomClassLoader extends ClassLoader {
     }
 
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    public Class<?> findClass(String name) throws ClassNotFoundException {
         File f = new File(name + ".class");
 
         if (!f.isFile()) throw new ClassNotFoundException("Нет такого класса " + name);
